@@ -78,17 +78,17 @@ LOG_STEP_OUT
 LOG "- Adding libc++_shared.so dependency for __cxa_demangle symbol"
 EVAL "patchelf --add-needed \"libc++_shared.so\" \"$WORK_DIR/system/system/lib64/libMultiFrameProcessing20Core.camera.samsung.so\""
 
-# LOG_STEP_IN "- Patching Video SVC Check"
-# # Early jump after the log and abort functions when configureSVC fails
-# # b LAB_001dd448 -> b LAB_001ddc24
-# HEX_PATCH "$WORK_DIR/system/system/lib64/libstagefright.so" "da4a0594e0031a2a22feff17" "da4a0594e0031a2a19000014"
-# LOG_STEP_OUT
+LOG_STEP_IN "- Patching Video SVC Check"
+# Early jump after the log and abort functions when configureSVC fails
+# b LAB_001dd448 -> b LAB_001ddc24
+HEX_PATCH "$WORK_DIR/system/system/lib64/libstagefright.so" "564b0594e0031a2a22feff17" "564b0594e0031a2a19000014"
+LOG_STEP_OUT
 
-# LOG_STEP_IN "- Patching HDR10+ Check"
-# # Skip HDR10+ Recording ASSERT
-# # cbz this,LAB_001dde38 -> nop
-# HEX_PATCH "$WORK_DIR/system/system/lib64/libstagefright.so" "010140f90a4d0594604d0034" "010140f90a4d05941f2003d5"
-# LOG_STEP_OUT
+LOG_STEP_IN "- Patching HDR10+ Check"
+# Skip HDR10+ Recording ASSERT
+# cbz this,LAB_001dde38 -> nop
+HEX_PATCH "$WORK_DIR/system/system/lib64/libstagefright.so" "010140f9864d0594604d0034" "010140f9864d05941f2003d5"
+LOG_STEP_OUT
 
 LOG_STEP_IN "- Adding blobs from other devices"
 ADD_TO_WORK_DIR "e2sxxx" "system" "system/lib64/libc++_shared.so" 0 0 644 "u:object_r:system_lib_file:s0"
